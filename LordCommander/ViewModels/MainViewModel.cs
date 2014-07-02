@@ -1,21 +1,30 @@
-﻿using System.ComponentModel;
+﻿using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
 using Caliburn.Micro;
+using LordCommander.Client;
 
 namespace LordCommander.ViewModels
 {
+    [Export(typeof(MainViewModel))]
     public class MainViewModel : Screen
     {
-        public MainViewModel()
+        private readonly CompositionContainer _container;
+
+        [ImportingConstructor]
+        public MainViewModel(CompositionContainer container)
         {
-            MainContent = new LoginViewModel(this);
-            OnPropertyChanged(new PropertyChangedEventArgs("MainContent"));
+            _container = container;
+            var loginViewModel = _container.GetExportedValue<LoginViewModel>();
+            loginViewModel.LoggedIn += login_LoggedIn;
+            MainContent = loginViewModel;
+        }
+
+        private void login_LoggedIn(LoginViewModel sender, LoginResult obj)
+        {
+            sender.LoggedIn -= login_LoggedIn;
+            MainContent = _container.GetExportedValue<MenuViewModel>();
         }
 
         public PropertyChangedBase MainContent { get; private set; }
-
-        public void ShowMenu()
-        {
-            MainContent = new MenuViewModel();
-        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -11,7 +12,8 @@ using Newtonsoft.Json.Converters;
 
 namespace LordCommander.Client
 {
-    public class AuthenticationHelper
+    [Export(typeof(IAuthenticationHelper))]
+    public class AuthenticationHelper : IAuthenticationHelper
     {
         private const string RegistrationUrl = "/api/Account/Register";
         private const string LogoutUrl = "/api/Account/Logout";
@@ -19,6 +21,10 @@ namespace LordCommander.Client
 
         private readonly string _baseUrl;
         private readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings();
+
+        public AuthenticationHelper() : this(ServerConstants.Base)
+        {
+        }
 
         public AuthenticationHelper(string baseUrl)
         {
@@ -39,32 +45,35 @@ namespace LordCommander.Client
             await PostAsJsonAsync<object, ModelValidationError>(RegistrationUrl, registerModel);
         }
 
-        public LoginResult Login(string username, string password)
+        public Task<LoginResult> Login(string username, string password)
         {
-            var request = (HttpWebRequest)WebRequest.Create(_baseUrl + "Token");
-
-            var postData = string.Format("grant_type=password&username={0}&password={1}", username, password);
-            var data = Encoding.ASCII.GetBytes(postData);
-
-            request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.ContentLength = data.Length;
-            request.CookieContainer = new CookieContainer();
-
-            using (var stream = request.GetRequestStream())
+            return Task.Factory.StartNew(() =>
             {
-                stream.Write(data, 0, data.Length);
-            }
+                var request = (HttpWebRequest) WebRequest.Create(_baseUrl + "Token");
 
-            var response = (HttpWebResponse)request.GetResponse();
-            var authCookie = response.Cookies[".AspNet.Cookies"];
-            using (var reader = new StreamReader(response.GetResponseStream()))
-            {
-                var responseString = reader.ReadToEnd();
-                var loginResult = JsonConvert.DeserializeObject<LoginResult>(responseString, _serializerSettings);
-                loginResult.AuthCookie = authCookie;
-                return loginResult;
-            }
+                var postData = string.Format("grant_type=password&username={0}&password={1}", username, password);
+                var data = Encoding.ASCII.GetBytes(postData);
+
+                request.Method = "POST";
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.ContentLength = data.Length;
+                request.CookieContainer = new CookieContainer();
+
+                using (var stream = request.GetRequestStream())
+                {
+                    stream.Write(data, 0, data.Length);
+                }
+
+                var response = (HttpWebResponse) request.GetResponse();
+                var authCookie = response.Cookies[".AspNet.Cookies"];
+                using (var reader = new StreamReader(response.GetResponseStream()))
+                {
+                    var responseString = reader.ReadToEnd();
+                    var loginResult = JsonConvert.DeserializeObject<LoginResult>(responseString, _serializerSettings);
+                    loginResult.AuthCookie = authCookie;
+                    return loginResult;
+                }
+            });
         }
 
         public async void ChangePassword(string oldPassword, string newPassword, string confirmPassword)

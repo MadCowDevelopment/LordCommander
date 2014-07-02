@@ -1,16 +1,22 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using LordCommander.Client;
 
 namespace LordCommander.ViewModels
 {
-    public class LoginViewModel : PropertyChangedBase
+    [Export(typeof(LoginViewModel))]
+    public class LoginViewModel : Screen
     {
-        private readonly MainViewModel _mainViewModel;
+        private readonly IAuthenticationHelper _authenticationHelper;
+        private readonly IGameProxy _gameProxy;
 
-        public LoginViewModel(MainViewModel mainViewModel)
+        [ImportingConstructor]
+        public LoginViewModel(IAuthenticationHelper authenticationHelper, IGameProxy gameProxy)
         {
-            _mainViewModel = mainViewModel;
+            _authenticationHelper = authenticationHelper;
+            _gameProxy = gameProxy;
         }
 
         public string Email { get; set; }
@@ -19,19 +25,24 @@ namespace LordCommander.ViewModels
 
         public async Task Login()
         {
-            var authHelper = new AuthenticationHelper(ServerConstants.Base);
-            var result = authHelper.Login(Email, Password);
-            var proxy = new GameProxy();
-            proxy.Connect(result);
-            proxy.SignIn();
+            var result = await _authenticationHelper.Login(Email, Password);
+            _gameProxy.Connect(result);
+            _gameProxy.SignIn();
 
-            _mainViewModel.ShowMenu();
+            RaiseLoggedIn(result);
+        }
+
+        public event Action<LoginViewModel, LoginResult> LoggedIn;
+
+        private void RaiseLoggedIn(LoginResult result)
+        {
+            var handler = LoggedIn;
+            if (handler != null) handler(this, result);
         }
 
         public async void Register()
         {
-            var authHelper = new AuthenticationHelper(ServerConstants.Base);
-            await authHelper.Register(Email, Password, Password);
+            await _authenticationHelper.Register(Email, Password, Password);
             await Login();
         }
     }

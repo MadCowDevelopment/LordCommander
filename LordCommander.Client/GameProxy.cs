@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Net;
 using System.Reactive.Subjects;
 using LordCommander.Shared;
@@ -6,7 +7,8 @@ using Microsoft.AspNet.SignalR.Client;
 
 namespace LordCommander.Client
 {
-    public class GameProxy
+    [Export(typeof(IGameProxy))]
+    public class GameProxy : IGameProxy
     {
         private IHubProxy _proxy;
 

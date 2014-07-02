@@ -11,8 +11,8 @@ namespace LordCommander.Web
     {
         public void Configuration(IAppBuilder app)
         {
-            //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
-            Database.SetInitializer(new DropCreateDatabaseAlways<ApplicationDbContext>());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
+            //Database.SetInitializer(new DropCreateDatabaseAlways<ApplicationDbContext>());
             ConfigureAuth(app);
 
             var configuration = new HubConfiguration();
