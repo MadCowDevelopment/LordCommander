@@ -99,6 +99,8 @@ namespace LordCommander.Web.Hubs
 
         private void StartNewGame(ClientInfo opponent)
         {
+            QueuedPlayers.Remove(Player);
+            QueuedPlayers.Remove(opponent);
             var gameInfo = new GameInfo(this, Player, opponent);
             RunningGames.Add(gameInfo);
             RunningGame.Start();

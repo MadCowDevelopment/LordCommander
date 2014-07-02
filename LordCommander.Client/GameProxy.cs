@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Net;
 using System.Reactive.Subjects;
+using System.Threading.Tasks;
 using LordCommander.Shared;
 using Microsoft.AspNet.SignalR.Client;
 
@@ -66,14 +67,14 @@ namespace LordCommander.Client
             _proxy.Invoke("SignIn", Environment.MachineName);
         }
 
-        public void Queue()
+        public Task Queue()
         {
-            _proxy.Invoke("Queue");
+            return _proxy.Invoke("Queue");
         }
 
-        public void LeaveQueue()
+        public Task LeaveQueue()
         {
-            _proxy.Invoke("LeaveQueue");
+            return _proxy.Invoke("LeaveQueue");
         }
 
         private void connection_StateChanged(StateChange stateChange)

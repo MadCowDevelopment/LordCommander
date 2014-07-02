@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using LordCommander.Shared;
 
 namespace LordCommander.Client
@@ -13,7 +14,7 @@ namespace LordCommander.Client
         IObservable<PlayerDto> CurrentPlayerChanged { get; }
         IObservable<GameDto> GameStarted { get; }
         void SignIn();
-        void Queue();
-        void LeaveQueue();
+        Task Queue();
+        Task LeaveQueue();
     }
 }

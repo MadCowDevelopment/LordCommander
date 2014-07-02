@@ -12,16 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using MahApps.Metro.Controls.Dialogs;
 
-namespace LordCommander.Dialogs
+namespace LordCommander.Views
 {
     /// <summary>
-    /// Interaction logic for MetroProgressDialog.xaml
+    /// Interaction logic for GameView.xaml
     /// </summary>
-    public partial class MetroProgressDialog : BaseMetroDialog
+    public partial class GameView : UserControl
     {
-        public MetroProgressDialog()
+        public GameView()
         {
             InitializeComponent();
         }

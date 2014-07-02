@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.Composition;
 using System.Threading.Tasks;
-using LordCommander.Dialogs;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace LordCommander.Views
@@ -13,21 +12,19 @@ namespace LordCommander.Views
     [PartCreationPolicy(CreationPolicy.Shared)]
     public partial class MainView : IProgressDialog
     {
-        private MetroProgressDialog _dialog;
-
         public MainView()
         {
             InitializeComponent();
         }
 
-        public Task<ProgressDialogController> ShowProgressDialog(string title, string message)
+        public Task<ProgressDialogController> ShowProgressDialog(string title, string message, bool cancellable = false)
         {
-            return this.ShowProgressAsync(title, message);
+            return this.ShowProgressAsync(title, message, cancellable);
         }
     }
 
     public interface IProgressDialog
     {
-        Task<ProgressDialogController> ShowProgressDialog(string title, string message);
+        Task<ProgressDialogController> ShowProgressDialog(string title, string message, bool cancellable = false);
     }
 }
