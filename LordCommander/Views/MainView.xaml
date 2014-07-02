@@ -1,8 +1,9 @@
-﻿<Window x:Class="LordCommander.Views.MainView"
+﻿<controls:MetroWindow x:Class="LordCommander.Views.MainView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"      
         Title="MainWindow" Height="350" Width="525">
   <Grid>
-    <ContentControl x:Name="MainContent"/>
+    <controls:TransitioningContentControl x:Name="MainContent" Transition="Right" />
   </Grid>
-</Window>
+</controls:MetroWindow>

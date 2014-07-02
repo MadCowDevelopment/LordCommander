@@ -7,10 +7,15 @@ namespace LordCommander.ViewModels
     {
         public MainViewModel()
         {
-            MainContent = new LoginViewModel();
+            MainContent = new LoginViewModel(this);
             OnPropertyChanged(new PropertyChangedEventArgs("MainContent"));
         }
 
         public PropertyChangedBase MainContent { get; private set; }
+
+        public void ShowMenu()
+        {
+            MainContent = new MenuViewModel();
+        }
     }
 }

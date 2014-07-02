@@ -27,7 +27,7 @@ namespace LordCommander.Client
             _serializerSettings.Converters.Add(new IsoDateTimeConverter());
         }
 
-        public async void Register(string email, string password, string confirmPassword)
+        public async Task Register(string email, string password, string confirmPassword)
         {
             var registerModel = new RegisterBindingModel
             {

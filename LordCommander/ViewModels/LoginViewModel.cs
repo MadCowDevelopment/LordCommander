@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 using Caliburn.Micro;
 using LordCommander.Client;
 
@@ -6,60 +6,33 @@ namespace LordCommander.ViewModels
 {
     public class LoginViewModel : PropertyChangedBase
     {
-        private string _userName;
-        private string _password;
+        private readonly MainViewModel _mainViewModel;
 
-        public LoginViewModel()
+        public LoginViewModel(MainViewModel mainViewModel)
         {
+            _mainViewModel = mainViewModel;
         }
 
-        public string UserName
-        {
-            get { return _userName; }
-            set
-            {
-                if (value == _userName) return;
-                _userName = value;
-                NotifyOfPropertyChange(() => UserName);
-            }
-        }
+        public string Email { get; set; }
 
-        public string Password
-        {
-            get { return _password; }
-            set
-            {
-                if (value == _password) return;
-                _password = value;
-                NotifyOfPropertyChange(() => Password);
-            }
-        }
+        public string Password { get; set; }
 
-        public void Login()
+        public async Task Login()
         {
-            Console.WriteLine("So far so good");
-
             var authHelper = new AuthenticationHelper(ServerConstants.Base);
-            var result = authHelper.Login(UserName, Password);
+            var result = authHelper.Login(Email, Password);
             var proxy = new GameProxy();
             proxy.Connect(result);
-
             proxy.SignIn();
+
+            _mainViewModel.ShowMenu();
         }
 
-        public void Register()
+        public async void Register()
         {
-            Console.WriteLine("So far so good");
-
             var authHelper = new AuthenticationHelper(ServerConstants.Base);
-            authHelper.Register(UserName, Password, Password);
-            var proxy = new GameProxy();
-
+            await authHelper.Register(Email, Password, Password);
+            await Login();
         }
-
-        //public bool CanLogin()
-        //{
-        //    //return !string.IsNullOrWhiteSpace(UserName) && !string.IsNullOrWhiteSpace(Password);
-        //}
     }
 }

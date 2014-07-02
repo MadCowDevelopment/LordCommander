@@ -17,14 +17,14 @@
       <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
     
-    <TextBlock Grid.Row="0" Grid.Column="0" Text="Username: "/>
-    <TextBlock Grid.Row="1" Grid.Column="0" Text="Password: "/>
-    
-    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding UserName}"/>
-    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Password}"/>
-    
-    <Button x:Name="Login" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" Content="Login"/>
-    <Button x:Name="Register" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="0" Content="Register"/>
+    <TextBlock Grid.Row="0" Grid.Column="0" Text="E-Mail: " Margin="10,5,10,5" HorizontalAlignment="Center"/>
+    <TextBlock Grid.Row="1" Grid.Column="0" Text="Password: " Margin="10,5,10,5" HorizontalAlignment="Center"/>
+
+    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Email}" Margin="10,5,10,5"/>
+    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Password}" Margin="10,5,10,5"/>
+
+    <Button x:Name="Login" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" Content="Login" Margin="10,5,10,5"/>
+    <Button x:Name="Register" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="0" Content="Register" Margin="10,5,10,5"/>
     
   </Grid>
 </UserControl>
