@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition.Hosting;
 using Caliburn.Micro;
 using LordCommander.Client;
+using LordCommander.Views;
 
 namespace LordCommander.ViewModels
 {
@@ -9,11 +10,13 @@ namespace LordCommander.ViewModels
     public class MainViewModel : Screen
     {
         private readonly CompositionContainer _container;
+        private readonly IProgressDialog _progressDialog;
 
         [ImportingConstructor]
-        public MainViewModel(CompositionContainer container)
+        public MainViewModel(CompositionContainer container, IProgressDialog progressDialog)
         {
             _container = container;
+            _progressDialog = progressDialog;
             var loginViewModel = _container.GetExportedValue<LoginViewModel>();
             loginViewModel.LoggedIn += login_LoggedIn;
             MainContent = loginViewModel;

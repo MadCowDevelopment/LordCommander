@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Windows;
 using Caliburn.Micro;
 using LordCommander.ViewModels;
+using LordCommander.Views;
 
 namespace LordCommander
 {
@@ -48,6 +49,7 @@ namespace LordCommander
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
+            ViewLocator.LocateForModelType(typeof (MainViewModel), _container.GetExportedValue<MainView>(), null);
             DisplayRootViewFor<MainViewModel>();
         }
 
