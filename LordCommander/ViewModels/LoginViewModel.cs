@@ -12,10 +12,10 @@ namespace LordCommander.ViewModels
     {
         private readonly IAuthenticationHelper _authenticationHelper;
         private readonly IGameProxy _gameProxy;
-        private readonly IProgressDialog _progressDialog;
+        private readonly IDialog _progressDialog;
 
         [ImportingConstructor]
-        public LoginViewModel(IAuthenticationHelper authenticationHelper, IGameProxy gameProxy, IProgressDialog progressDialog)
+        public LoginViewModel(IAuthenticationHelper authenticationHelper, IGameProxy gameProxy, IDialog progressDialog)
         {
             _authenticationHelper = authenticationHelper;
             _gameProxy = gameProxy;

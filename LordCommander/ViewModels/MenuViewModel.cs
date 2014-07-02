@@ -8,6 +8,7 @@ using Caliburn.Micro;
 using LordCommander.Client;
 using LordCommander.Shared;
 using LordCommander.Views;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace LordCommander.ViewModels
 {
@@ -15,10 +16,10 @@ namespace LordCommander.ViewModels
     public class MenuViewModel : Screen
     {
         private readonly IGameProxy _gameProxy;
-        private readonly IProgressDialog _progressDialog;
+        private readonly IDialog _progressDialog;
 
         [ImportingConstructor]
-        public MenuViewModel(IGameProxy gameProxy, IProgressDialog progressDialog)
+        public MenuViewModel(IGameProxy gameProxy, IDialog progressDialog)
         {
             _gameProxy = gameProxy;
             _progressDialog = progressDialog;
@@ -63,9 +64,13 @@ namespace LordCommander.ViewModels
             if (handler != null) handler(this, game);
         }
 
-        public void Quit()
+        public async void Quit()
         {
-            Application.Current.Shutdown();
+            var result =
+                await _progressDialog.ShowMessage("Quit", "You're trying to say you like DOS better than me, right?",
+                    MessageDialogStyle.AffirmativeAndNegative);
+
+            if (result == MessageDialogResult.Affirmative) Application.Current.Shutdown();
         }
     }
 }
