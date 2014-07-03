@@ -22,7 +22,7 @@ namespace LordCommander.Client
         private readonly Subject<ConnectionStateInfo> _stateChanged = new Subject<ConnectionStateInfo>();
         private ConnectionStateInfo _state;
 
-        public void Connect(LoginResult loginInfo)
+        public Task Connect(LoginResult loginInfo)
         {
             var connection = new HubConnection(ServerConstants.Base);
             connection.StateChanged += connection_StateChanged;
@@ -37,7 +37,7 @@ namespace LordCommander.Client
             _proxy.On<GameDto>("GameStarted", p => _gameStarted.OnNext(p));
             _proxy.On<PlayerDto>("CurrentPlayerChanged", p => _currentPlayerChanged.OnNext(p));
 
-            connection.Start().Wait();
+            return connection.Start();
         }
 
         private ConnectionStateInfo State
@@ -62,9 +62,9 @@ namespace LordCommander.Client
 
         public IObservable<GameDto> GameStarted { get { return _gameStarted; } } 
 
-        public void SignIn()
+        public Task SignIn()
         {
-            _proxy.Invoke("SignIn", Environment.MachineName);
+            return _proxy.Invoke("SignIn", Environment.MachineName);
         }
 
         public Task Queue()

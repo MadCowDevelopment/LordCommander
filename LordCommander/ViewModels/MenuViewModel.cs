@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using LordCommander.Client;
+using LordCommander.Services;
 using LordCommander.Shared;
 using LordCommander.Views;
 using MahApps.Metro.Controls.Dialogs;

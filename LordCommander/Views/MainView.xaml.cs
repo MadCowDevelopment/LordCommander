@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
+using LordCommander.Services;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace LordCommander.Views
@@ -26,13 +28,5 @@ namespace LordCommander.Views
         {
             return this.ShowMessageAsync(title, message, style);
         }
-    }
-
-    public interface IDialog
-    {
-        Task<MessageDialogResult> ShowMessage(string title, string message,
-            MessageDialogStyle style = MessageDialogStyle.Affirmative);
-
-        Task<ProgressDialogController> ShowProgressDialog(string title, string message, bool cancellable = false);
     }
 }

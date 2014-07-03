@@ -39,6 +39,7 @@ namespace LordCommander
                     new DirectoryCatalog("."));
 
             _container = new CompositionContainer(catalog);
+            ContainerSingleton.Instance = _container;
 
             var batch = new CompositionBatch();
             batch.AddExportedValue<IWindowManager>(new WindowManager());

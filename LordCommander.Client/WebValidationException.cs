@@ -10,5 +10,10 @@ namespace LordCommander.Client
         {
             WebError = webError;
         }
+
+        public override string ToString()
+        {
+            return WebError.ToString();
+        }
     }
 }
