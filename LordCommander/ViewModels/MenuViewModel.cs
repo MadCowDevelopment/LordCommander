@@ -39,6 +39,7 @@ namespace LordCommander.ViewModels
                 RaiseGameStarted(p);
             });
 
+            // ReSharper disable once CSharpWarnings::CS4014
             Task.Factory.StartNew(async () =>
             {
                 while (!tokenSource.IsCancellationRequested)
